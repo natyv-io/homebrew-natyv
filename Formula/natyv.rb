@@ -42,6 +42,16 @@ class Natyv < Formula
   end
 
   def install
+    # `zig` is deliberately not a `depends_on` (see above), so Homebrew's
+    # own sandboxed build PATH -- confirmed for real to exclude anywhere
+    # a manually-installed `zig` actually lives -- never has it on PATH.
+    # `ORIGINAL_PATHS` is Homebrew's own established idiom for exactly
+    # this: locating a real, non-brew-managed tool from the user's actual
+    # environment rather than the restricted build sandbox one.
+    zig = which("zig", ORIGINAL_PATHS)
+    odie "natyv requires a real `zig` install on your PATH (see this formula's caveats for the version natyv-io/cli was built against) -- none found" if zig.nil?
+    ENV.prepend_path "PATH", zig.dirname
+
     zon_path = Pathname.new("build.zig.zon")
     contents = zon_path.read
     contents.sub!(/\.shared\s*=\s*\.\{[^}]*\}/, ".shared = .{ .path = \"#{Formula["natyv-shared"].opt_prefix}\" }")
