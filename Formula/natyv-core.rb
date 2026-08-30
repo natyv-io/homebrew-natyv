@@ -19,14 +19,21 @@ class NatyvCore < Formula
     prefix.install Dir["*"]
 
     # Zig's own package manager requires a `.path` dependency's value to
-    # be relative to the *consuming* build.zig.zon's own directory -- this
-    # file will actually be read later via `-Dnatyv-core-src=`, which the
-    # `natyv` formula sets to this formula's own stable `opt_prefix`
-    # symlink, not the raw versioned Cellar path `prefix` resolves to
-    # during install (a real, different depth -- computing this relative
-    # to `prefix` instead would silently produce a wrong path the moment
-    # `opt_prefix`'s own symlink depth differs from the Cellar keg's).
-    shared_relative = Formula["natyv-shared"].opt_prefix.relative_path_from(opt_prefix)
+    # be relative to the *consuming* build.zig.zon's own directory. Real,
+    # confirmed gotcha: even though `-Dnatyv-core-src=` (set by the
+    # `natyv` formula) points at this formula's stable `opt_prefix`
+    # symlink, zig's own build runner resolves its actual working
+    # directory to the real, symlink-followed Cellar keg path before
+    # doing any relative-path arithmetic -- computing this relative to
+    # `opt_prefix` instead produced a real, reproduced "FileNotFound" one
+    # directory shallower than the real target. `prefix` (this formula's
+    # own real, versioned Cellar path, no symlink involved) on both sides
+    # matches what zig actually sees. Known, accepted limitation this
+    # creates: the resulting relative path is only valid for the exact
+    # natyv-shared version installed right now -- upgrading natyv-shared
+    # independently later requires reinstalling natyv-core too, to
+    # regenerate a correct one.
+    shared_relative = Formula["natyv-shared"].prefix.relative_path_from(prefix)
     zon_path = prefix/"build.zig.zon"
     contents = zon_path.read
     contents.sub!(/\.shared\s*=\s*\.\{[^}]*\}/, ".shared = .{ .path = \"#{shared_relative}\" }")
