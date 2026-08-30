@@ -1,8 +1,8 @@
 class Natyv < Formula
   desc "CLI for building natyv apps -- native desktop apps with no bundled browser"
   homepage "https://github.com/natyv-io/cli"
-  url "https://github.com/natyv-io/cli/archive/refs/tags/v0.1.0.tar.gz"
-  sha256 "39387cd4d55c0cbf303e1ab1903bff35ea401c5b09e4fa4508c32cdf044d7ea4"
+  url "https://github.com/natyv-io/cli/archive/refs/tags/v0.1.1.tar.gz"
+  sha256 "50f65c46f43983a9572da1a7c3509fe428a9519431cbad9ed2a5cd207d0105f1"
   license "Apache-2.0"
 
   # Deliberately not `depends_on "zig"`: Homebrew's own zig formula tracks
