@@ -18,9 +18,18 @@ class NatyvCore < Formula
   def install
     prefix.install Dir["*"]
 
+    # Zig's own package manager requires a `.path` dependency's value to
+    # be relative to the *consuming* build.zig.zon's own directory -- this
+    # file will actually be read later via `-Dnatyv-core-src=`, which the
+    # `natyv` formula sets to this formula's own stable `opt_prefix`
+    # symlink, not the raw versioned Cellar path `prefix` resolves to
+    # during install (a real, different depth -- computing this relative
+    # to `prefix` instead would silently produce a wrong path the moment
+    # `opt_prefix`'s own symlink depth differs from the Cellar keg's).
+    shared_relative = Formula["natyv-shared"].opt_prefix.relative_path_from(opt_prefix)
     zon_path = prefix/"build.zig.zon"
     contents = zon_path.read
-    contents.sub!(/\.shared\s*=\s*\.\{[^}]*\}/, ".shared = .{ .path = \"#{Formula["natyv-shared"].opt_prefix}\" }")
+    contents.sub!(/\.shared\s*=\s*\.\{[^}]*\}/, ".shared = .{ .path = \"#{shared_relative}\" }")
     zon_path.atomic_write(contents)
   end
 

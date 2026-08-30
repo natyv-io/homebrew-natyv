@@ -52,9 +52,15 @@ class Natyv < Formula
     odie "natyv requires a real `zig` install on your PATH (see this formula's caveats for the version natyv-io/cli was built against) -- none found" if zig.nil?
     ENV.prepend_path "PATH", zig.dirname
 
+    # Zig's own package manager requires a `.path` dependency's value to
+    # be a real relative path from the consuming package's build root --
+    # confirmed the hard way (a real compile error, "expected path
+    # relative to build root; found absolute path") when this first tried
+    # a plain absolute `opt_prefix`.
+    shared_relative = Formula["natyv-shared"].opt_prefix.relative_path_from(buildpath)
     zon_path = Pathname.new("build.zig.zon")
     contents = zon_path.read
-    contents.sub!(/\.shared\s*=\s*\.\{[^}]*\}/, ".shared = .{ .path = \"#{Formula["natyv-shared"].opt_prefix}\" }")
+    contents.sub!(/\.shared\s*=\s*\.\{[^}]*\}/, ".shared = .{ .path = \"#{shared_relative}\" }")
     zon_path.atomic_write(contents)
 
     extism_dir = buildpath/"extism-vendor"
