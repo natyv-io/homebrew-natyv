@@ -66,10 +66,13 @@ class Natyv < Formula
     extism_dir = buildpath/"extism-vendor"
     resource("extism").stage extism_dir
 
+    # `--prefix` takes a separate argv element, not `--prefix=value` --
+    # confirmed the hard way ("unrecognized argument"), matching
+    # natyv-io/cli's own established convention for this exact flag.
     system "zig", "build", "install",
            "-Dnatyv-core-src=#{Formula["natyv-core"].opt_prefix}",
            "-Dextism-prefix=#{extism_dir}",
-           "--prefix=#{prefix}"
+           "--prefix", prefix
   end
 
   def caveats
