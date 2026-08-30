@@ -63,8 +63,17 @@ class Natyv < Formula
     contents.sub!(/\.shared\s*=\s*\.\{[^}]*\}/, ".shared = .{ .path = \"#{shared_relative}\" }")
     zon_path.atomic_write(contents)
 
+    # `-Dextism-prefix` expects a real `include/`+`lib/` layout (matching
+    # Extism's own `extism lib install` tool, which is what this flag was
+    # originally designed for) -- confirmed the hard way ("file not
+    # found") that the raw per-target release tarball's own flat layout
+    # (extism.h/libextism.a side by side, no subdirectories) doesn't match
+    # that on its own, so it has to be restructured here.
     extism_dir = buildpath/"extism-vendor"
-    resource("extism").stage extism_dir
+    resource("extism").stage do
+      (extism_dir/"include").install "extism.h"
+      (extism_dir/"lib").install "libextism.a"
+    end
 
     # `--prefix` takes a separate argv element, not `--prefix=value` --
     # confirmed the hard way ("unrecognized argument"), matching
