@@ -2,7 +2,7 @@ class NatyvCore < Formula
   desc "natyv-core: the runtime a natyv app actually ships as and runs on"
   homepage "https://github.com/natyv-io/core"
   url "https://github.com/natyv-io/core/archive/refs/tags/v0.1.0.tar.gz"
-  sha256 "7b1ed45824a8e057756e30161ef1d510afd53c26125f7ab1a6df5da8b43bb007"
+  sha256 "361452a4b34213e9035a1917f181b8f72ca9bd01141acc98c849d1e0146b8fad"
   license "Apache-2.0"
 
   depends_on "natyv-shared"
