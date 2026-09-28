@@ -89,9 +89,8 @@ class Natyv < Formula
       natyv build requires a real `zig` install matching the version
       natyv-io/cli's own build.zig.zon was built against -- see
       https://github.com/natyv-io/cli for the currently pinned version.
-      natyv does not yet verify this itself, so a mismatched `zig` on
-      your PATH may surface as a confusing failure from inside
-      natyv-core's own build.zig rather than a clear natyv-attributed one.
+      natyv checks `zig version` before every prepare/build and reports
+      a clear error if the `zig` on your PATH doesn't match.
     EOS
   end
 
