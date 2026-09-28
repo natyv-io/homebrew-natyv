@@ -1,8 +1,8 @@
 class NatyvShared < Formula
   desc "Code shared between natyv-core, the natyv CLI, and ntx-lsp (config schema, .ntx transpiler)"
   homepage "https://github.com/natyv-io/shared"
-  url "https://github.com/natyv-io/shared/archive/refs/tags/v0.1.0.tar.gz"
-  sha256 "66220b08418915172e9df5f7546598d3cad80b8b0248e2ddaa14e967de35626f"
+  url "https://github.com/natyv-io/shared/archive/refs/tags/v0.2.0.tar.gz"
+  sha256 "67fc1e8d2d5b5cd7cc43368da88778fb1983634722ddab459dc0b281e7419af3"
   license "Apache-2.0"
 
   # Not installed directly by end users -- this is a build-time-only
