@@ -1,8 +1,8 @@
 class Natyv < Formula
   desc "CLI for building natyv apps -- native desktop apps with no bundled browser"
   homepage "https://github.com/natyv-io/cli"
-  url "https://github.com/natyv-io/cli/archive/refs/tags/v0.2.0.tar.gz"
-  sha256 "c0d5a3f4ba151388acfbabae3212dbfa3aa7b201fd593f11b45a6af2c2b10cd0"
+  url "https://github.com/natyv-io/cli/archive/refs/tags/v0.2.1.tar.gz"
+  sha256 "21ca760c2aa76fc78fb6aa4c1d58c4686c3974ef902ca4d222b91073c6e9edf9"
   license "Apache-2.0"
 
   # Deliberately not `depends_on "zig"`: Homebrew's own zig formula tracks
@@ -13,7 +13,7 @@ class Natyv < Formula
   depends_on "natyv-shared"
   depends_on "natyv-core"
 
-  # Real, official per-target Extism v1.30.0 static libraries -- the same
+  # Real, official per-target Extism v1.41.0 static libraries -- the same
   # ones natyv-io/cli's own build.zig.zon fetches by default, vendored
   # here instead since Homebrew's own install sandbox has no network
   # access (unlike natyv-core's later, separate `zig build` invocation on
@@ -21,22 +21,22 @@ class Natyv < Formula
   resource "extism" do
     on_macos do
       on_arm do
-        url "https://github.com/extism/extism/releases/download/v1.30.0/libextism-aarch64-apple-darwin-v1.30.0.tar.gz"
-        sha256 "96df7cb87f7fae7218a788b9d0f4dcac9d98d23b9c5f11e0e12d13075d75c94f"
+        url "https://github.com/extism/extism/releases/download/v1.41.0/libextism-aarch64-apple-darwin-v1.41.0.tar.gz"
+        sha256 "a6b1bcdecea3fcb0bcb20908a992d32e4c1f714683d15771735eaa7ef47d6aae"
       end
       on_intel do
-        url "https://github.com/extism/extism/releases/download/v1.30.0/libextism-x86_64-apple-darwin-v1.30.0.tar.gz"
-        sha256 "c2b9e3f81cf8d1c168fbac14c079e568c76420b06115df940ab38c7634cff9c9"
+        url "https://github.com/extism/extism/releases/download/v1.41.0/libextism-x86_64-apple-darwin-v1.41.0.tar.gz"
+        sha256 "163769b36ffee26a3e1f8fe1cc695bd2d9d83deb1d8fc728dfa20dedce87e2cf"
       end
     end
     on_linux do
       on_arm do
-        url "https://github.com/extism/extism/releases/download/v1.30.0/libextism-aarch64-unknown-linux-gnu-v1.30.0.tar.gz"
-        sha256 "bf4684c4cb138ce35fefdc8f44d51cab41b53765095f8f24a1d62d75909c8d7a"
+        url "https://github.com/extism/extism/releases/download/v1.41.0/libextism-aarch64-unknown-linux-gnu-v1.41.0.tar.gz"
+        sha256 "c8bf58093b036a6741408511c74ba27da1d6f5c9a48b2668fa7638a7028ad66c"
       end
       on_intel do
-        url "https://github.com/extism/extism/releases/download/v1.30.0/libextism-x86_64-unknown-linux-gnu-v1.30.0.tar.gz"
-        sha256 "57924a2cffaf228ea209d153951371bc17c86a3527ecce374eedc4bb32c4e338"
+        url "https://github.com/extism/extism/releases/download/v1.41.0/libextism-x86_64-unknown-linux-gnu-v1.41.0.tar.gz"
+        sha256 "753cef478c853556212f6ad64b6e98adbc8b7908931c54b79678bb7c1fb2643b"
       end
     end
   end
